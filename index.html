@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResolveIQ Hub | AI-Powered Complaint Intelligence & Resolution Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  /* ResolveIQ Hub Colours: Deep Indigo + Gold/Amber  Justice · Intelligence · Resolution */
+  --blue:#1B2A6B;
+  --blue-light:#2E46A8;
+  --blue-dim:#162259;
+  --blue-dark:#0F1A45;
+  --blue-deeper:#090F2A;
+
+  --accent:#E8A020;
+  --accent-light:#FDE8B8;
+  --accent-dim:#C8880A;
+
+  --nav-bg:#0F1A45;
+  --footer-bg:#060C1E;
+
+  --bg-white:#F5F5F8;
+  --bg-light:#EEEEF5;
+  --bg-section:#E2E3F0;
+  --bg-card:#FFFFFF;
+
+  --card-border:rgba(27,42,107,0.16);
+  --card-border-strong:rgba(27,42,107,0.35);
+
+  --text-dark:#0A0F2E;
+  --text-mid:#1E2B5E;
+  --text-muted:#445089;
+  --text-light:#7A83B8;
+  --white:#FFFFFF;
+
+  --nav-h:72px;
+  --max-w:1200px;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --display:'Sora',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --ease-out:cubic-bezier(0,0,0.2,1);
+}
+
+body{font-family:var(--font);color:var(--text-dark);background:var(--bg-white);overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg-light);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+img{display:block;max-width:100%;}
+
+/* ─── NAVBAR ─────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;height:var(--nav-h);
+  background:var(--nav-bg);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(232,160,32,0.18);
+  z-index:1000;display:flex;align-items:center;
+  padding:0 clamp(16px,5vw,60px);
+  justify-content:space-between;
+  transition:border-color 0.3s;
+  box-shadow:0 2px 24px rgba(9,15,42,0.6);
+}
+.nav-logo{
+  font-family:var(--display);font-size:18px;font-weight:800;
+  color:var(--white);letter-spacing:-0.3px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;text-decoration:none;flex-shrink:0;
+}
+.nav-logo-icon{
+  width:40px;height:40px;
+  background:rgba(232,160,32,0.18);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(232,160,32,0.2);
+  border:1px solid rgba(232,160,32,0.3);
+}
+.nav-logo-icon svg{width:22px;height:22px;fill:none;stroke:#E8A020;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-text span{font-size:10px;font-family:var(--mono);font-weight:500;color:rgba(232,160,32,0.8);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none;}
+.nav-links li button{
+  background:none;border:none;
+  color:rgba(255,255,255,0.85);
+  font-size:11px;font-weight:600;
+  padding:8px 14px;border-radius:7px;
+  transition:all 0.22s var(--ease);
+  cursor:pointer;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;
+  position:relative;white-space:nowrap;
+}
+.nav-links li button:hover{color:#fff;background:rgba(232,160,32,0.15);}
+.nav-links li button.active{color:#fff;background:rgba(232,160,32,0.18);}
+.nav-links li button.active::after{
+  content:'';position:absolute;bottom:5px;left:50%;
+  transform:translateX(-50%);width:14px;height:2px;
+  background:var(--accent);border-radius:2px;
+}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-demo-nav{
+  background:var(--accent);
+  color:var(--blue-deeper);border:none;padding:9px 20px;border-radius:8px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  transition:all 0.22s;font-family:var(--mono);
+  letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap;
+  box-shadow:0 2px 10px rgba(232,160,32,0.3);
+}
+.btn-demo-nav:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,160,32,0.5);}
+
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;flex-shrink:0;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:0.3s;display:block;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.mobile-nav{
+  display:none;position:fixed;top:var(--nav-h);left:0;width:100%;
+  background:var(--blue-deeper);backdrop-filter:blur(20px);
+  padding:12px 20px 20px;flex-direction:column;gap:2px;
+  z-index:999;border-bottom:1px solid rgba(232,160,32,0.15);
+  animation:slideDown 0.25s var(--ease-out);
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.mobile-nav.open{display:flex;}
+.mobile-nav button{
+  background:none;border:none;color:rgba(255,255,255,0.8);
+  font-size:13px;font-weight:600;padding:13px 12px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  cursor:pointer;font-family:var(--mono);text-align:left;
+  text-transform:uppercase;letter-spacing:1px;
+  transition:color 0.2s,background 0.2s;border-radius:6px;
+}
+.mobile-nav button:hover{color:#fff;background:rgba(232,160,32,0.12);}
+.mobile-nav .mob-cta{
+  margin-top:8px;background:var(--accent);
+  color:var(--blue-deeper);border:none;padding:13px;
+  border-radius:8px;font-weight:700;font-size:12px;
+  letter-spacing:1px;text-transform:uppercase;cursor:pointer;
+  font-family:var(--mono);
+}
+
+/* ─── PAGE SYSTEM ─────────────────── */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h);}
+.page.active{display:block;animation:pgIn 0.35s var(--ease);}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── SECTION COMMONS ─────────────── */
+.label-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--blue-dim);margin-bottom:14px;
+}
+.label-tag::before{content:'';width:20px;height:1px;background:var(--blue);}
+.label-tag-white{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(232,160,32,0.9);margin-bottom:14px;
+}
+.label-tag-white::before{content:'';width:20px;height:1px;background:rgba(232,160,32,0.7);}
+
+.section-h2{
+  font-family:var(--display);font-size:clamp(28px,3.5vw,52px);
+  font-weight:800;line-height:1.1;letter-spacing:-0.8px;
+  margin-bottom:10px;
+}
+.section-h2.blue-txt{color:var(--blue-dark);}
+.section-h2.dark{color:var(--text-dark);}
+.section-h2.white{color:var(--white);}
+
+.section-divider{width:56px;height:3px;margin:16px 0 28px;border-radius:2px;}
+.divider-blue{background:linear-gradient(90deg,var(--blue),transparent);}
+.divider-cyan{background:linear-gradient(90deg,var(--accent),transparent);}
+.divider-white{background:linear-gradient(90deg,rgba(232,160,32,0.8),transparent);}
+.divider-center{margin:16px auto 28px;}
+
+.para-dark{color:var(--text-mid);line-height:1.85;font-size:17px;}
+.para-light{color:rgba(255,255,255,0.85);line-height:1.85;font-size:17px;}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 clamp(16px,4vw,60px);}
+
+/* ─── BUTTONS ─────────────────────── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  color:var(--white);padding:13px 28px;border-radius:8px;
+  text-decoration:none;font-weight:700;font-size:12px;
+  letter-spacing:0.8px;text-transform:uppercase;
+  transition:all 0.25s;font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(27,42,107,0.35);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(27,42,107,0.5);}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid var(--blue);color:var(--blue-dark);
+  padding:12px 28px;border-radius:8px;text-decoration:none;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);background:none;cursor:pointer;
+}
+.btn-secondary:hover{background:rgba(27,42,107,0.08);border-color:var(--blue-dim);}
+.btn-white{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--white);color:var(--blue-dark);
+  padding:12px 28px;border-radius:8px;
+  font-weight:700;font-size:12px;letter-spacing:0.8px;
+  text-transform:uppercase;transition:all 0.25s;
+  font-family:var(--mono);border:none;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12);
+}
+.btn-white:hover{transform:translateY(-2px);background:var(--accent-light);box-shadow:0 8px 28px rgba(0,0,0,0.2);}
+
+/* ─── STATUS BADGES ─────────────────── */
+.risk-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;font-family:var(--mono);letter-spacing:0.5px;
+}
+.risk-blue{background:rgba(27,42,107,0.1);color:var(--blue-dim);border:1px solid rgba(27,42,107,0.28);}
+.risk-light{background:rgba(232,160,32,0.12);color:var(--blue-dark);border:1px solid rgba(232,160,32,0.3);}
+.risk-green{background:rgba(16,185,129,0.1);color:#059669;border:1px solid rgba(16,185,129,0.25);}
+.risk-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* ─── HERO ─────────────────────────── */
+.hero{
+  background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 40%,#FDE8B8 100%);
+  padding:clamp(60px,10vw,100px) 0 clamp(50px,8vw,80px);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,42,107,0.1) 0%,transparent 70%);
+}
+.hero-inner{
+  max-width:var(--max-w);margin:0 auto;
+  padding:0 clamp(16px,4vw,60px);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);
+  align-items:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(27,42,107,0.1);border:1px solid rgba(27,42,107,0.25);
+  border-radius:30px;padding:6px 16px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  color:var(--blue-dim);letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+h1{
+  font-family:var(--display);font-size:clamp(34px,5vw,64px);
+  font-weight:800;line-height:1.06;letter-spacing:-1.5px;color:var(--text-dark);
+  margin-bottom:6px;
+}
+h1 .blue{color:var(--blue);}
+h1 .cyan{color:var(--accent-dim);}
+.hero-rule{width:48px;height:3px;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:2px;margin:20px 0;}
+.hero-body{font-size:17px;color:var(--text-mid);line-height:1.8;margin-bottom:28px;max-width:540px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+
+.hero-mini-stats{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+.hero-mini-card{
+  background:rgba(255,255,255,0.8);
+  border:1px solid rgba(27,42,107,0.18);
+  border-radius:12px;padding:14px 18px;min-width:140px;
+  backdrop-filter:blur(8px);
+}
+.hero-mini-card strong{
+  display:block;font-family:var(--display);
+  font-size:22px;font-weight:800;color:var(--blue-dark);
+}
+.hero-mini-card span{font-size:11px;color:var(--text-muted);font-family:var(--mono);}
+
+/* DASHBOARD CARD */
+.score-card{
+  background:#fff;border-radius:18px;
+  border:1px solid rgba(27,42,107,0.18);
+  padding:24px;box-shadow:0 8px 40px rgba(27,42,107,0.12);
+}
+.score-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.score-card-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.dashboard-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--text-dark);}
+.live-dot-wrap{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:700;color:var(--accent-dim);letter-spacing:1.5px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.5s infinite;}
+.score-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(27,42,107,0.08);}
+.score-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;flex-shrink:0;}
+.score-icon.blue-bg{background:rgba(27,42,107,0.1);color:var(--blue-dim);}
+.score-icon.light-bg{background:rgba(232,160,32,0.12);color:var(--blue-dark);}
+.score-icon.green-bg{background:rgba(16,185,129,0.1);color:#059669;}
+.score-lbl{flex:1;font-size:12px;color:var(--text-muted);}
+.score-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px;background:linear-gradient(135deg,rgba(27,42,107,0.08),rgba(232,160,32,0.1));border-radius:12px;border:1px solid rgba(27,42,107,0.12);}
+.score-big-num{font-family:var(--display);font-size:48px;font-weight:800;color:var(--blue);line-height:1;}
+.score-big-info .label{font-size:13px;font-weight:700;color:var(--text-dark);}
+.score-big-info .sub{font-size:11px;color:var(--text-muted);margin-top:3px;font-family:var(--mono);}
+
+/* ─── STATS STRIP ─────────────────── */
+.section-blue{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue-deeper) 100%);
+  padding:clamp(60px,8vw,96px) 0;
+}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px;
+}
+.stat-card{
+  background:rgba(255,255,255,0.07);border:1px solid rgba(232,160,32,0.2);
+  border-radius:16px;padding:clamp(20px,3vw,30px);
+  text-align:center;transition:transform 0.25s,border-color 0.25s;
+}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(232,160,32,0.4);}
+.stat-num{font-family:var(--display);font-size:clamp(32px,4vw,48px);font-weight:800;color:var(--accent);margin-bottom:10px;}
+.stat-lbl{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;}
+
+/* ─── PLATFORM SECTION ─────────────── */
+.platform-section{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.platform-sub{max-width:760px;margin-bottom:44px;color:var(--text-mid);}
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.platform-card{
+  background:#fff;border:1px solid rgba(27,42,107,0.13);
+  border-radius:18px;overflow:hidden;
+  transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;
+  box-shadow:0 2px 12px rgba(27,42,107,0.06);
+}
+.platform-card:hover{border-color:rgba(27,42,107,0.35);box-shadow:0 12px 40px rgba(27,42,107,0.12);transform:translateY(-3px);}
+.platform-img-wrap{width:100%;height:200px;overflow:hidden;background:linear-gradient(135deg,var(--bg-light),var(--bg-section));display:flex;align-items:center;justify-content:center;}
+.platform-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.platform-img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;gap:12px;}
+.platform-img-placeholder i{font-size:48px;color:var(--blue);opacity:0.5;}
+.platform-img-placeholder span{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;}
+.platform-card .inner{padding:24px;}
+.element-badge{
+  display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--blue);
+  background:rgba(27,42,107,0.1);border-radius:20px;padding:4px 12px;margin-bottom:12px;
+}
+.platform-card h3{font-family:var(--display);font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:10px;line-height:1.3;}
+.platform-card p{font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:16px;}
+.more-text{font-size:13px;color:var(--text-mid);line-height:1.7;margin-bottom:16px;display:none;}
+.platform-card.open .more-text{display:block;}
+.expand-btn{
+  background:none;border:1.5px solid rgba(27,42,107,0.28);
+  color:var(--blue);font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;padding:8px 18px;
+  border-radius:6px;cursor:pointer;transition:all 0.2s;
+}
+.expand-btn:hover{background:rgba(27,42,107,0.08);}
+
+/* ─── WHY SECTION ─────────────────── */
+.why-section{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:40px;}
+.why-card{
+  background:#fff;border:1px solid rgba(27,42,107,0.1);
+  border-radius:16px;padding:28px;
+  transition:border-color 0.3s,box-shadow 0.3s;
+}
+.why-card:hover{border-color:rgba(232,160,32,0.4);box-shadow:0 8px 32px rgba(27,42,107,0.1);}
+.why-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(27,42,107,0.1),rgba(232,160,32,0.1));
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--blue);margin-bottom:16px;
+}
+.why-card h4{font-family:var(--display);font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:10px;}
+.why-card p{font-size:14px;color:var(--text-muted);line-height:1.75;}
+
+/* ─── ABOUT HERO ─────────────────── */
+.about-hero{background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 50%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);}
+.section-light{background:var(--bg-white);padding:clamp(60px,8vw,96px) 0;}
+.section-alt{background:var(--bg-light);padding:clamp(60px,8vw,96px) 0;}
+
+/* Founder card */
+.founder-card{
+  background:#fff;border:1px solid rgba(27,42,107,0.14);
+  border-radius:20px;overflow:hidden;display:grid;
+  grid-template-columns:1fr 1.8fr;gap:0;
+  box-shadow:0 8px 40px rgba(27,42,107,0.1);margin-top:40px;
+}
+.founder-img-side{
+  background:linear-gradient(160deg,var(--blue-dark),var(--blue-deeper));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 30px;text-align:center;
+}
+.founder-avatar{
+  width:120px;height:120px;border-radius:50%;
+  border:3px solid rgba(232,160,32,0.5);
+  background:rgba(232,160,32,0.1);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  overflow:hidden;
+}
+.founder-avatar img{width:100%;height:100%;object-fit:cover;}
+.founder-name{font-family:var(--display);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;}
+.founder-title{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;}
+.founder-quote{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;font-style:italic;}
+.founder-content{padding:40px;}
+.founder-content h3{font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-dark);margin-bottom:12px;}
+.founder-content p{font-size:15px;color:var(--text-mid);line-height:1.8;margin-bottom:16px;}
+.founder-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.ftag{
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;padding:5px 14px;border-radius:20px;
+  background:rgba(27,42,107,0.08);color:var(--blue-dim);
+  border:1px solid rgba(27,42,107,0.18);
+}
+
+/* ─── COMPETITOR TABLE ──────────────── */
+.comp-table-wrap{overflow-x:auto;margin-top:36px;}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;}
+.comp-table th{
+  background:linear-gradient(135deg,var(--blue-dark),var(--blue-deeper));
+  color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:14px 16px;text-align:left;
+}
+.comp-table td{padding:12px 16px;border-bottom:1px solid rgba(27,42,107,0.08);color:var(--text-mid);font-size:13px;}
+.comp-table tr:last-child td{border-bottom:none;}
+.comp-table .no{color:#dc3545;}
+.comp-table .yes{color:#059669;font-weight:700;}
+.comp-table .highlight-col{background:rgba(27,42,107,0.06);color:var(--blue-dim);font-weight:700;}
+.comp-table thead th:last-child{background:linear-gradient(135deg,var(--blue),var(--accent-dim));color:#fff;}
+
+/* ─── CHARTS ─────────────────────── */
+.charts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:36px;}
+.chart-card{
+  background:#fff;border:1px solid rgba(27,42,107,0.1);
+  border-radius:16px;padding:24px;
+}
+.chart-card h4{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;}
+.chart-card p{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
+.chart-wrap{height:260px;position:relative;}
+
+/* ─── PROCESS ─────────────────────── */
+.process-step{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,60px);
+  align-items:center;padding:clamp(40px,6vw,70px) 0;
+  border-bottom:1px solid rgba(27,42,107,0.08);
+}
+.process-step:last-child{border-bottom:none;}
+.step-num{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent-dim);margin-bottom:12px;}
+.step-h3{font-family:var(--display);font-size:clamp(20px,2.5vw,28px);font-weight:800;color:var(--text-dark);margin-bottom:16px;line-height:1.25;}
+.step-p{font-size:15px;color:var(--text-mid);line-height:1.8;margin-bottom:16px;}
+.step-img{
+  border-radius:24px;overflow:hidden;
+  height:280px;
+  background:linear-gradient(135deg,var(--bg-section),var(--accent-light));
+  display:flex;align-items:center;justify-content:center;
+}
+.step-img img{width:100%;height:100%;object-fit:cover;}
+.step-img-placeholder{display:flex;flex-direction:column;align-items:center;gap:16px;padding:20px;text-align:center;}
+.step-img-placeholder i{font-size:56px;color:var(--blue);opacity:0.4;}
+.step-img-placeholder span{font-family:var(--mono);font-size:11px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;}
+
+/* ─── PRICING ─────────────────────── */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;}
+.price-card{
+  background:#fff;border:1px solid rgba(27,42,107,0.14);
+  border-radius:20px;padding:32px;
+  transition:border-color 0.3s,box-shadow 0.3s,transform 0.3s;
+  position:relative;
+}
+.price-card:hover{border-color:rgba(27,42,107,0.38);box-shadow:0 12px 40px rgba(27,42,107,0.12);transform:translateY(-4px);}
+.price-card.featured{border:2px solid var(--blue);box-shadow:0 8px 40px rgba(27,42,107,0.18);}
+.price-badge{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--blue),var(--accent-dim));
+  color:#fff;font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;padding:4px 16px;border-radius:20px;
+  white-space:nowrap;
+}
+.price-tier{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+.price-name{font-family:var(--display);font-size:22px;font-weight:800;color:var(--text-dark);margin-bottom:8px;}
+.price-num{font-family:var(--display);font-size:42px;font-weight:800;color:var(--blue-dark);line-height:1;margin:16px 0 4px;}
+.price-num span{font-size:16px;font-weight:600;color:var(--text-muted);}
+.price-period{font-family:var(--mono);font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-bottom:24px;}
+.price-rule{height:1px;background:rgba(27,42,107,0.1);margin-bottom:20px;}
+.price-feature{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-mid);margin-bottom:12px;line-height:1.5;}
+.price-feature i{color:var(--accent-dim);margin-top:2px;flex-shrink:0;}
+
+/* ─── FAQ ─────────────────────────── */
+.faq-wrap{display:flex;flex-direction:column;gap:12px;}
+.faq-item{background:#fff;border:1px solid rgba(27,42,107,0.1);border-radius:14px;overflow:hidden;}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 24px;cursor:pointer;gap:20px;
+  transition:background 0.2s;
+}
+.faq-q:hover{background:rgba(27,42,107,0.04);}
+.faq-q h4{font-family:var(--display);font-size:16px;font-weight:700;color:var(--text-dark);flex:1;line-height:1.35;}
+.faq-icon{font-size:22px;font-weight:300;color:var(--blue);transition:transform 0.3s;flex-shrink:0;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{display:none;padding:0 24px 20px;font-size:14px;color:var(--text-mid);line-height:1.8;border-top:1px solid rgba(27,42,107,0.08);padding-top:16px;}
+.faq-item.open .faq-a{display:block;}
+
+/* ─── CONTACT ─────────────────────── */
+.contact-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;margin-top:0;}
+.contact-form{background:#fff;border:1px solid rgba(27,42,107,0.14);border-radius:20px;padding:clamp(28px,4vw,40px);}
+.contact-form h3{font-family:var(--display);font-size:24px;font-weight:800;color:var(--text-dark);margin-bottom:8px;}
+.contact-form p{font-size:15px;color:var(--text-muted);margin-bottom:28px;line-height:1.6;}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-dim);margin-bottom:8px;}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:12px 16px;
+  border:1.5px solid rgba(27,42,107,0.18);border-radius:10px;
+  font-family:var(--font);font-size:14px;color:var(--text-dark);
+  background:#fff;transition:border-color 0.2s,box-shadow 0.2s;
+  outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,42,107,0.1);
+}
+.form-group textarea{height:120px;resize:vertical;}
+.contact-info{padding:clamp(20px,3vw,36px) 0;}
+.contact-info h3{font-family:var(--display);font-size:22px;font-weight:800;color:var(--text-dark);margin-bottom:12px;}
+.contact-info>p{font-size:15px;color:var(--text-mid);line-height:1.8;margin-bottom:28px;}
+.contact-detail{display:flex;gap:16px;align-items:flex-start;margin-bottom:24px;}
+.contact-detail .icon{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(27,42,107,0.1),rgba(232,160,32,0.1));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--blue);font-size:16px;
+}
+.contact-detail .text strong{display:block;font-size:14px;font-weight:700;color:var(--text-dark);margin-bottom:2px;}
+.contact-detail .text span{font-size:13px;color:var(--text-muted);}
+
+/* ─── FOOTER ─────────────────────── */
+footer{background:var(--footer-bg);padding:clamp(50px,7vw,80px) 0 32px;}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-brand{font-family:var(--display);font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;}
+.footer-brand span{color:var(--accent);}
+.footer-desc{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.8;margin-bottom:20px;}
+.footer-badges{display:flex;flex-wrap:wrap;gap:8px;}
+.footer-badge{
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;padding:4px 12px;border-radius:20px;
+  background:rgba(232,160,32,0.12);color:rgba(232,160,32,0.8);
+  border:1px solid rgba(232,160,32,0.2);
+}
+.footer-col-title{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(232,160,32,0.7);margin-bottom:16px;}
+.footer-col{display:flex;flex-direction:column;gap:10px;}
+.footer-col a{font-size:13px;color:rgba(255,255,255,0.55);text-decoration:none;transition:color 0.2s;cursor:pointer;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom-bar{
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:28px;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:12px;
+}
+.footer-bottom-bar p{font-size:12px;color:rgba(255,255,255,0.4);font-family:var(--mono);}
+.footer-bottom-bar p span{color:var(--accent);}
+.footer-bottom-links{display:flex;gap:20px;}
+.footer-bottom-links a{font-size:12px;color:rgba(255,255,255,0.4);text-decoration:none;cursor:pointer;transition:color 0.2s;}
+.footer-bottom-links a:hover{color:var(--accent);}
+
+/* ─── IMPACT STRIP ──────────────────── */
+.impact-strip{
+  background:linear-gradient(135deg,var(--blue-dark),var(--blue-deeper));
+  padding:clamp(50px,7vw,80px) 0;
+}
+.impact-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:40px;}
+.impact-card{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(232,160,32,0.15);
+  border-radius:14px;padding:20px 12px;text-align:center;
+  transition:border-color 0.2s;
+}
+.impact-card:hover{border-color:rgba(232,160,32,0.4);}
+.impact-num{font-family:var(--display);font-size:clamp(20px,2.5vw,32px);font-weight:800;color:var(--accent);margin-bottom:6px;}
+.impact-lbl{font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;font-family:var(--mono);}
+
+/* ─── INDUSTRIES STRIP ──────────────── */
+.industries-strip{background:var(--bg-light);padding:clamp(50px,6vw,70px) 0;}
+.ind-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:16px;margin-top:32px;}
+.ind-card{
+  background:#fff;border:1px solid rgba(27,42,107,0.1);
+  border-radius:14px;padding:20px 12px;text-align:center;
+  transition:all 0.2s;
+}
+.ind-card:hover{border-color:var(--blue);box-shadow:0 6px 20px rgba(27,42,107,0.12);}
+.ind-card i{font-size:26px;color:var(--blue);margin-bottom:10px;display:block;}
+.ind-card span{font-size:11px;color:var(--text-muted);font-family:var(--mono);letter-spacing:0.5px;line-height:1.4;display:block;}
+
+/* ─── RESPONSIVE ─────────────────────── */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-inner>div:last-child{display:none;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .platform-grid{grid-template-columns:repeat(2,1fr);}
+  .why-grid{grid-template-columns:repeat(2,1fr);}
+  .founder-card{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .charts-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .comp-table{font-size:12px;}
+  .impact-grid{grid-template-columns:repeat(3,1fr);}
+  .ind-grid{grid-template-columns:repeat(4,1fr);}
+  .contact-wrap{grid-template-columns:1fr;}
+  .process-step{grid-template-columns:1fr;}
+  .process-step .step-img{order:-1;}
+  .process-step:nth-child(even) .step-img{order:unset;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .btn-demo-nav{display:none;}
+}
+@media(max-width:600px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .platform-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .impact-grid{grid-template-columns:repeat(2,1fr);}
+  .ind-grid{grid-template-columns:repeat(3,1fr);}
+  .hero-btns{flex-direction:column;}
+  .footer-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .founder-card{grid-template-columns:1fr;}
+}
+
+/* ─── NAMED GRID CLASSES for mobile overrides ─── */
+.core-caps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.vision-mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px;}
+.one-time-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+
+@media(max-width:900px){
+  .core-caps-grid{grid-template-columns:repeat(2,1fr);gap:20px;}
+  .vision-mission-grid{grid-template-columns:1fr;gap:20px;}
+  .one-time-grid{grid-template-columns:1fr;gap:20px;}
+  .one-time-grid .price-card{padding:24px!important;}
+  .one-time-grid .price-num{font-size:30px!important;}
+  .one-time-grid .price-name{font-size:17px!important;}
+}
+@media(max-width:600px){
+  .core-caps-grid{grid-template-columns:1fr;gap:16px;}
+  .vision-mission-grid{gap:16px;margin-top:20px;}
+  .one-time-grid{gap:16px;}
+  .one-time-grid .price-card{padding:20px!important;}
+  .one-time-grid .price-num{font-size:28px!important;}
+}
+
+@media(max-width:900px){
+  .nav-logo-text{font-size:15px;}
+  .nav-logo-text span{font-size:9px;}
+  .hero{padding:clamp(40px,8vw,70px) 0 clamp(36px,6vw,60px);}
+  h1{font-size:clamp(30px,7vw,48px);letter-spacing:-1px;}
+  .hero-body{font-size:15px;}
+  .hero-mini-stats{gap:10px;}
+  .hero-mini-card{min-width:120px;padding:12px 14px;}
+  .hero-mini-card strong{font-size:19px;}
+  .hero-mini-card span{font-size:10px;}
+  .score-card{padding:18px;}
+  .score-big-num{font-size:38px;}
+  .dashboard-title{font-size:15px;}
+  .section-h2{font-size:clamp(22px,5vw,36px);}
+  .para-dark,.para-light{font-size:15px;}
+  .stats-grid{gap:14px;}
+  .stat-num{font-size:clamp(26px,6vw,36px);}
+  .stat-lbl{font-size:12px;}
+  .stat-card{padding:18px 14px;}
+  .platform-card .inner{padding:18px;}
+  .platform-img-wrap{height:160px;}
+  .platform-card h3{font-size:16px;}
+  .expand-btn{width:100%;text-align:center;padding:10px;}
+  .why-card{padding:22px 18px;}
+  .why-card h4{font-size:15px;}
+  .why-card p{font-size:13px;}
+  .impact-grid{gap:12px;}
+  .impact-card{padding:16px 8px;}
+  .impact-num{font-size:clamp(18px,4vw,26px);}
+  .impact-lbl{font-size:10px;}
+  .ind-card{padding:16px 8px;}
+  .ind-card i{font-size:22px;}
+  .ind-card span{font-size:10px;}
+  .price-card{padding:24px 20px;}
+  .price-num{font-size:34px;}
+  .price-name{font-size:19px;}
+  .price-feature{font-size:12px;}
+  .faq-q{padding:16px 18px;gap:14px;}
+  .faq-q h4{font-size:14px;}
+  .faq-a{padding:0 18px 16px;padding-top:14px;font-size:13px;}
+  .contact-form{padding:24px 20px;}
+  .contact-form h3{font-size:20px;}
+  .contact-info h3{font-size:18px;}
+  .form-group input,.form-group select,.form-group textarea{font-size:16px;}
+  .step-img{height:200px;}
+  .step-h3{font-size:clamp(18px,4vw,24px);}
+  .step-p{font-size:14px;}
+  .founder-content{padding:24px 20px;}
+  .founder-content h3{font-size:20px;}
+  .founder-content p{font-size:14px;}
+  .comp-table th{font-size:9px;padding:10px 10px;letter-spacing:1px;}
+  .comp-table td{padding:10px 10px;font-size:12px;}
+  .chart-card{padding:18px 14px;}
+  .chart-wrap{height:220px;}
+  .chart-card h4{font-size:14px;}
+  .footer-grid{gap:28px;}
+  .footer-brand{font-size:19px;}
+  .footer-desc{font-size:12px;}
+  .footer-col a{font-size:12px;}
+  .footer-bottom-bar{flex-direction:column;align-items:flex-start;gap:10px;}
+  .footer-bottom-links{gap:14px;flex-wrap:wrap;}
+  .footer-bottom-links a{font-size:11px;}
+  .btn-primary,.btn-secondary,.btn-white{padding:12px 22px;font-size:11px;}
+  .hero-btns{gap:10px;}
+}
+
+@media(max-width:480px){
+  :root{--nav-h:60px;}
+  .nav-logo-icon{width:34px;height:34px;}
+  .nav-logo-text{font-size:14px;}
+  .nav-logo-text span{display:none;}
+  .mobile-nav{padding:10px 16px 18px;}
+  .mobile-nav button{font-size:12px;padding:11px 10px;}
+  .mobile-nav .mob-cta{padding:12px;font-size:11px;}
+  .hero{padding:32px 0 28px;}
+  h1{font-size:clamp(26px,8vw,38px);letter-spacing:-0.5px;}
+  .hero-badge{font-size:9px;padding:5px 12px;}
+  .hero-body{font-size:14px;line-height:1.7;}
+  .hero-mini-stats{gap:8px;margin-top:24px;}
+  .hero-mini-card{min-width:100px;padding:10px 12px;border-radius:10px;}
+  .hero-mini-card strong{font-size:17px;}
+  .hero-mini-card span{font-size:9px;}
+  .hero-rule{margin:14px 0;}
+  .btn-primary,.btn-secondary,.btn-white{width:100%;justify-content:center;padding:13px 18px;font-size:11px;}
+  .hero-btns{flex-direction:column;gap:10px;}
+  .score-card{padding:16px;}
+  .score-big{padding:12px;gap:12px;}
+  .score-big-num{font-size:32px;}
+  .section-h2{font-size:clamp(20px,6vw,30px);}
+  .para-dark,.para-light{font-size:14px;line-height:1.75;}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .stat-card{padding:16px 12px;border-radius:12px;}
+  .stat-num{font-size:clamp(24px,7vw,32px);}
+  .platform-img-wrap{height:140px;}
+  .platform-card .inner{padding:16px;}
+  .platform-card h3{font-size:15px;}
+  .why-card{padding:18px 16px;}
+  .why-icon{width:42px;height:42px;font-size:17px;}
+  .impact-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .impact-card{padding:14px 8px;border-radius:12px;}
+  .ind-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .ind-card{padding:14px 8px;border-radius:12px;}
+  .pricing-grid{gap:20px;}
+  .price-card{padding:22px 18px;border-radius:16px;}
+  .price-num{font-size:30px;}
+  .faq-q{padding:14px 16px;}
+  .faq-q h4{font-size:13px;line-height:1.4;}
+  .faq-a{padding:0 16px 14px;padding-top:12px;font-size:12px;}
+  .contact-form{padding:20px 16px;border-radius:16px;}
+  .contact-form h3{font-size:18px;}
+  .form-group{margin-bottom:16px;}
+  .form-group input,.form-group select,.form-group textarea{padding:11px 14px;font-size:16px;border-radius:8px;}
+  .form-group textarea{height:100px;}
+  .process-step{padding:28px 0;gap:20px;}
+  .step-img{height:180px;border-radius:16px;}
+  .step-img-placeholder i{font-size:44px;}
+  .step-h3{font-size:clamp(16px,5vw,22px);}
+  .step-p{font-size:13px;line-height:1.7;}
+  .founder-img-side{padding:28px 20px;}
+  .founder-avatar{width:90px;height:90px;}
+  .founder-name{font-size:18px;}
+  .founder-content{padding:20px 16px;}
+  .comp-table-wrap{-webkit-overflow-scrolling:touch;}
+  .comp-table{min-width:520px;}
+  .comp-table th{font-size:8px;padding:9px 8px;}
+  .comp-table td{padding:9px 8px;font-size:11px;}
+  .charts-grid{gap:18px;}
+  .chart-card{padding:16px 12px;}
+  .chart-wrap{height:190px;}
+  footer{padding:clamp(36px,8vw,56px) 0 24px;}
+  .footer-grid{gap:24px;margin-bottom:32px;}
+  .footer-brand{font-size:17px;}
+  .footer-col-title{font-size:9px;}
+  .footer-col{gap:8px;}
+  .footer-badge{font-size:8px;padding:3px 10px;}
+  .footer-bottom-bar{padding-top:20px;}
+  .footer-bottom-bar p{font-size:10px;}
+  .footer-bottom-links{gap:12px;}
+  .footer-bottom-links a{font-size:10px;}
+  .risk-badge{font-size:9px;padding:3px 8px;}
+  .section-blue{padding:clamp(40px,7vw,70px) 0;}
+  .section-divider{margin:12px 0 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar">
+  <a class="nav-logo" onclick="showPage('home')" href="#">
+    <div class="nav-logo-text">
+      ResolveIQ Hub<span style="color:var(--accent);"></span>
+      <span>Intelligent Resolution · Smarter Outcomes</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><button id="nav-home" class="active" onclick="showPage('home')">Home</button></li>
+    <li><button id="nav-about" onclick="showPage('about')">About</button></li>
+    <li><button id="nav-platform" onclick="showPage('platform')">Platform</button></li>
+    <li><button id="nav-market" onclick="showPage('market')">Market</button></li>
+    <li><button id="nav-process" onclick="showPage('process')">How It Works</button></li>
+    <li><button id="nav-pricing" onclick="showPage('pricing')">Pricing</button></li>
+    <li><button id="nav-faq" onclick="showPage('faq')">FAQ</button></li>
+    <li><button id="nav-contact" onclick="showPage('contact')">Contact</button></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="btn-demo-nav" onclick="showPage('contact')">Book a Demo →</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button onclick="showPage('home');closeMobile()">Home</button>
+  <button onclick="showPage('about');closeMobile()">About</button>
+  <button onclick="showPage('platform');closeMobile()">Platform</button>
+  <button onclick="showPage('market');closeMobile()">Market</button>
+  <button onclick="showPage('process');closeMobile()">How It Works</button>
+  <button onclick="showPage('pricing');closeMobile()">Pricing</button>
+  <button onclick="showPage('faq');closeMobile()">FAQ</button>
+  <button onclick="showPage('contact');closeMobile()">Contact</button>
+  <button class="mob-cta" onclick="showPage('contact');closeMobile()">Book a Demo →</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE : HOME
+════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          2026 · AI-Powered Complaint Intelligence
+        </div>
+        <h1>Resolve Today.<br><span class="cyan">Prevent</span> <span class="blue">Tomorrow.</span></h1>
+        <div class="hero-rule"></div>
+        <p class="hero-body">ResolveIQ Hub is the UK's first closed-loop complaint intelligence platform  transforming fragmented customer grievances into actionable operational intelligence, proactive FCA compliance, and sustainable business growth for UK SMEs.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="showPage('contact')">Book a Demo →</button>
+          <button class="btn-secondary" onclick="showPage('platform')">Explore Platform</button>
+        </div>
+       
+      </div>
+      <div>
+        <div class="score-card">
+          <div class="score-card-top">
+            <div>
+              <div class="score-card-label">ResolveIQ Dashboard</div>
+              <div class="dashboard-title">Complaint Intelligence Hub</div>
+            </div>
+            <div class="live-dot-wrap"><div class="live-dot"></div>LIVE</div>
+          </div>
+          <div class="score-row">
+            <div class="score-icon green-bg">RC</div>
+            <span class="score-lbl">Root Causes Resolved</span>
+            <span class="score-val">22% ↓ recurrence</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon light-bg">AH</div>
+            <span class="score-lbl">Avg. Handling Time</span>
+            <span class="score-val">28–40% faster</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon blue-bg">FO</div>
+            <span class="score-lbl">FOS Escalations Prevented</span>
+            <span class="score-val">£750+ saved/case</span>
+          </div>
+          <div class="score-row">
+            <div class="score-icon green-bg">CD</div>
+            <span class="score-lbl">Consumer Duty Compliance</span>
+            <span class="score-val">100% Audit-Ready</span>
+          </div>
+          <div class="score-big">
+            <div class="score-big-num">85<span style="font-size:24px;">%</span></div>
+            <div class="score-big-info">
+              <div class="label">Increase in Fairness & Satisfaction</div>
+              <div class="sub">FCA TCF Aligned · Closed-Loop · ↑ Resolution DNA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <section class="section-blue">
+    <div class="container">
+      <div class="label-tag-white">The UK Complaint Intelligence Gap</div>
+      <h2 class="section-h2 white">UK SMEs Are Losing Billions to<br>Unresolved, Recurring Complaints.</h2>
+      <div class="section-divider divider-white"></div>
+      <p class="para-light" style="max-width:760px;">
+        Poor customer service and complaint mishandling costs the UK economy approximately £7.3 billion every month. The Financial Ombudsman Service reported a staggering 54% year-on-year increase in complaints, exceeding 305,000 new cases in 2024/2025. UK SMEs face FOS escalation fees of £750+ per case, regulatory fines, and reputational damage  all driven by recurring operational failures that remain unresolved due to lack of root-cause analysis. ResolveIQ Hub closes this gap.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">£7.3B</div>
+          <div class="stat-lbl">Monthly cost to the UK economy from poor customer service and complaint mishandling</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">54%</div>
+          <div class="stat-lbl">Year-on-year increase in FOS complaints  305,000+ new cases in 2024/2025</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">64%</div>
+          <div class="stat-lbl">Of employees spend up to 4 days a month resolving issues caused by service failings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">£750+</div>
+          <div class="stat-lbl">Average FOS escalation cost per case  avoidable with proactive root-cause intelligence</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM PREVIEW -->
+  <section class="platform-section">
+    <div class="container">
+      <div class="label-tag">Core Intelligence Modules</div>
+      <h2 class="section-h2 dark">Five Capabilities. One Complete Complaint Intelligence OS.</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark platform-sub">
+        ResolveIQ Hub combines NLP & Context Understanding, Risk & Impact Assessment, Policy & Rule Engine, Mediation Support, and Analytics & Reports into one unified SaaS platform  no manual triage, real-time, AI-driven.
+      </p>
+      <div class="platform-grid">
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder">
+               <div class="platform-img-placeholder"><img src="re1.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+              <span>NLP & Context</span>
+            </div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Capability 01</div>
+            <h3>NLP & Context Understanding</h3>
+            <p>AI models understand intent, language, and sentiment deeply  mapping unstructured complaint text to precise operational root-cause failure modes with domain-specific ontologies.</p>
+            <div class="more-text">The NLP engine ingests multi-channel complaint data (email, web form, chat) and automatically maps linguistic inputs to operational failure modes using UK-specific knowledge graphs. It detects vulnerable customer signals, sentiment trajectory, and regulatory risk indicators in real time  giving agents instant context without hours of manual investigation.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder">
+               <div class="platform-img-placeholder"><img src="re2.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+              <span>Risk & Impact</span>
+            </div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Capability 02</div>
+            <h3>Risk & Impact Assessment</h3>
+            <p>Evaluate risks and potential impact of disputes  automatically assessing FOS escalation risk, regulatory exposure, and vulnerable customer flags before a complaint escalates.</p>
+            <div class="more-text">The Context-Aware Decision Engine (CADE) scores each complaint's escalation probability using UK FCA Consumer Duty guidelines and historical FOS outcomes. It flags vulnerable customers, prioritises high-risk cases, and routes them to the appropriate resolution pathway  preventing costly escalations before they occur.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder">
+              <div class="platform-img-placeholder"><img src="re3.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+              <span>Policy & Rule Engine</span>
+            </div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Capability 03</div>
+            <h3>Policy & Rule Engine</h3>
+            <p>Apply rules, policies and precedents intelligently  ensuring every resolution aligns with Treating Customers Fairly (TCF) principles and FCA Consumer Duty mandates automatically.</p>
+            <div class="more-text">The Policy & Rule Engine synthesises FCA/FOS guidelines, historical resolution logs, and company-specific policies into a structured compliance workflow. It guides front-line agents through compliant resolution pathways, clones best-practice "Resolution DNA" from senior specialists to junior staff, and maintains an audit-ready trail for every decision.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT STRIP -->
+  <section class="impact-strip">
+    <div class="container">
+      <div class="label-tag-white">Impact That Matters</div>
+      <h2 class="section-h2 white">Measurable Results Across Every Organisation.</h2>
+      <div class="section-divider divider-white"></div>
+      <div class="impact-grid">
+        <div class="impact-card"><div class="impact-num">50%+</div><div class="impact-lbl">Faster Resolution Time</div></div>
+        <div class="impact-card"><div class="impact-num">40%+</div><div class="impact-lbl">Reduction in Resolution Costs</div></div>
+        <div class="impact-card"><div class="impact-num">85%+</div><div class="impact-lbl">Increase in Fairness & Satisfaction</div></div>
+        <div class="impact-card"><div class="impact-num">3X</div><div class="impact-lbl">Higher Productivity for Teams</div></div>
+        <div class="impact-card"><div class="impact-num">22%</div><div class="impact-lbl">Reduction in Recurring Failures</div></div>
+        <div class="impact-card"><div class="impact-num">100%</div><div class="impact-lbl">Transparency & Accountability</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES -->
+  <section class="industries-strip">
+    <div class="container">
+      <div class="label-tag">Built for Every Organisation</div>
+      <h2 class="section-h2 dark">Intelligent Resolution. Better Relationships. Better Future.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="ind-grid">
+        <div class="ind-card"><i class="fas fa-building"></i><span>Corporates</span></div>
+        <div class="ind-card"><i class="fas fa-balance-scale"></i><span>Legal Firms</span></div>
+        <div class="ind-card"><i class="fas fa-shield-alt"></i><span>Insurance</span></div>
+        <div class="ind-card"><i class="fas fa-landmark"></i><span>Government</span></div>
+        <div class="ind-card"><i class="fas fa-users"></i><span>HR & Workplace</span></div>
+        <div class="ind-card"><i class="fas fa-globe"></i><span>Online Platforms</span></div>
+        <div class="ind-card"><i class="fas fa-university"></i><span>Financial Services</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why-section">
+    <div class="container">
+      <div class="label-tag">Why ResolveIQ Hub</div>
+      <h2 class="section-h2 dark">Built for the Complaint Intelligence Era.<br>Not Just a Ticketing Tool with an AI Badge.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-robot"></i></div>
+          <h4>AI-Powered Intelligence</h4>
+          <p>Advanced domain-specific ontologies and knowledge graphs deliver high-accuracy, real-time root-cause identification  moving beyond slow, error-prone manual complaint triage.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-dna"></i></div>
+          <h4>Resolution DNA Fingerprinting</h4>
+          <p>Captures the compliance logic of expert resolution specialists and stores it as reusable "Resolution DNA"  ensuring institutional knowledge is never lost when staff change.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-search"></i></div>
+          <h4>Root-Cause Forensics Engine</h4>
+          <p>The RCFE identifies exactly where a customer journey breaks down  whether due to misleading marketing, rigid policies, or product delays  providing actionable operational fixes instantly.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-plug"></i></div>
+          <h4>CRM-Agnostic Integration</h4>
+          <p>Built to sit above any underlying CRM or helpdesk platform (Zendesk, Salesforce, Intercom)  businesses never need to rip and replace their existing technology stack.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-gavel"></i></div>
+          <h4>FCA Consumer Duty Compliance</h4>
+          <p>Generates audit-ready Consumer Duty Governance reports aligned with FCA mandates  ensuring firms can proactively evidence the prevention of foreseeable harm to regulators.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-pound-sign"></i></div>
+          <h4>SME-Optimised SaaS</h4>
+          <p>Tiered subscription from £50/month  giving UK regulated SMEs enterprise-grade complaint intelligence without enterprise-level headcount costs or compliance budgets.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page home -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : ABOUT
+════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <div class="container">
+      <div class="label-tag">About Us</div>
+      <h2 class="section-h2 dark">Built by a Compliance Expert Who Lived the Problem.<br><span style="color:var(--blue-dark);">Designed for the AI Resolution Era.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">ResolveIQ Hub is a UK-based Enterprise SaaS venture founded by Tuhin Datta Choudhury  combining deep expertise in FCA-regulated complaint handling with advanced AI to solve the most pressing challenge facing UK SMEs today: the "Complaint Intelligence Gap" that costs the economy £7.3 billion every month in mishandled complaints, regulatory penalties, and operational amnesia.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Get in Touch</button>
+        <button class="btn-secondary" onclick="showPage('platform')">Explore Platform</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Vision & Mission</div>
+      <h2 class="section-h2 dark">To Be the Definitive Standard for<br>Closed-Loop Complaint Intelligence.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid vision-mission-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-eye"></i></div>
+          <h4>Our Vision</h4>
+          <p>To become the definitive industry standard for closed-loop complaint intelligence  transforming every customer grievance into a catalyst for operational excellence, regulatory confidence, and sustained business growth across the UK and beyond.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-bullseye"></i></div>
+          <h4>Our Mission</h4>
+          <p>To empower UK SMEs with accessible, AI-driven workflow automation that fundamentally changes how they handle complaints  equipping businesses to resolve issues fairly, diagnose root causes intelligently, prevent future occurrences, and maintain seamless regulatory compliance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="label-tag">Core Values</div>
+      <h2 class="section-h2 dark">What Drives Everything We Build</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-lightbulb"></i></div>
+          <h4>Innovation</h4>
+          <p>Continuous refinement of ResolveIQ's domain-specific ontology and knowledge graphs to stay ahead of evolving regulatory expectations and emerging complaint trends.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-balance-scale"></i></div>
+          <h4>Integrity</h4>
+          <p>A commitment to forensic root-cause analysis and strict alignment with Financial Ombudsman Service (FOS) fairness principles to eliminate compliance guesswork across every resolution.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-check-double"></i></div>
+          <h4>Accountability</h4>
+          <p>Empowering firms to track post-intervention outcomes  transforming unstructured customer grievances into a verifiable, closed-loop operational asset with full auditability.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-heart"></i></div>
+          <h4>Empathy</h4>
+          <p>Making swift, fair, and vulnerable-customer-aware resolutions accessible through intuitive, low-friction workflow automation that puts human outcomes first.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-rocket"></i></div>
+          <h4>Empowerment</h4>
+          <p>Equipping SME leaders with the operational intelligence needed to proactively prevent foreseeable harm  without requiring headcount-proportional compliance costs.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h4>Resilience</h4>
+          <p>Building organisations that are immune to "Operational Amnesia"  preserving expert compliance knowledge as permanent institutional DNA even through staff turnover.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Founder Fit</div>
+      <h2 class="section-h2 dark">Tuhin Datta Choudhury  Founder & CEO</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="founder-card">
+        <div class="founder-img-side">
+          <div class="founder-avatar">
+            <i class="fas fa-user" style="font-size:54px;color:rgba(232,160,32,0.6);margin-top:20px;"></i>
+          </div>
+          <div class="founder-name">Tuhin Datta Choudhury</div>
+          <div class="founder-title">Founder & CEO · ResolveIQ Hub</div>
+          <p class="founder-quote">"Our mission is to make resolution smarter, faster, and more human  empowered by AI, guided by justice."</p>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;align-items:center;">
+            <span class="footer-badge">FCA Complaint Specialist</span>
+            <span class="footer-badge">NatWest Bank · RegTech Expert</span>
+            <span class="footer-badge">UK Market Authority</span>
+          </div>
+        </div>
+        <div class="founder-content">
+          <h3>Regulatory Expertise Meets AI Intelligence</h3>
+          <p>Tuhin Datta Choudhury possesses the ideal intersection of domain expertise, regulatory insight, and strategic vision to establish and grow ResolveIQ Hub in the UK market. Drawing on deep experience in financial service operations, FCA compliance, and business analysis at NatWest Bank, Tuhin brings a practitioner's perspective to the "Complaint Intelligence Gap."</p>
+          <p>His career trajectory demonstrates a clear transition from complex operational oversight of FCA-regulated complaints to architecting AI-driven business intelligence platforms  providing first-hand experience of the operational "blind spots" and manual forensic bottlenecks that plague UK financial and regulated SMEs daily.</p>
+          <p>The concept for ResolveIQ was born from observing that regulated businesses invest heavily in CRM tooling yet consistently fail to identify recurring operational "logic leaks" driving FOS escalations. Tuhin's mastery of Treating Customers Fairly (TCF) mandates, combined with technical expertise in SQL, Power BI, and AI deployment, ensures that ResolveIQ's predictive models are built on proven principles of regulatory adherence.</p>
+          <div class="founder-tags">
+            <span class="ftag">FCA Consumer Duty</span>
+            <span class="ftag">Complaint Forensics</span>
+            <span class="ftag">Business Analysis</span>
+            <span class="ftag">SQL & Power BI</span>
+            <span class="ftag">RegTech Architecture</span>
+            <span class="ftag">UK SME Market</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page about -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : PLATFORM
+════════════════════════════════════════════ -->
+<div class="page" id="page-platform">
+  <section style="background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 50%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">The Platform</div>
+      <h2 class="section-h2 dark">Complete AI-Powered Complaint<br><span style="color:var(--blue-dark);">Intelligence & Resolution System.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;margin-bottom:40px;">ResolveIQ Hub unifies NLP & Context Understanding, Risk & Impact Assessment, Policy & Rule Engine, Mediation Support, and Analytics & Reports into one closed-loop complaint intelligence platform  purpose-built for UK regulated SMEs and service firms.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Request Demo →</button>
+        <button class="btn-secondary" onclick="showPage('pricing')">View Pricing</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Core Capabilities -->
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Core Capabilities</div>
+      <h2 class="section-h2 dark">Five Capabilities. Zero Compromise.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="platform-grid core-caps-grid">
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder"> <div class="platform-img-placeholder"><img src="re4.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div><span>NLP & Context</span></div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Core 01</div>
+            <h3>NLP & Context Understanding</h3>
+            <p>Understand intent, language and sentiment deeply  AI models trained on UK service sector data and FCA Consumer Duty mandates map complaints to precise failure modes.</p>
+            <div class="more-text">The NLP engine processes thousands of multi-channel complaint inputs per day, identifying linguistic patterns that indicate escalation risk, vulnerability triggers, and systemic failure modes. Unlike generic AI tools, it is grounded in UK-specific regulatory ontologies  ensuring outputs are compliant, not hallucinated.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder"> <div class="platform-img-placeholder"><img src="re5.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div><span>Risk Assessment</span></div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Core 02</div>
+            <h3>Risk & Impact Assessment</h3>
+            <p>Evaluate risks and potential impact of disputes automatically  scoring FOS escalation probability, regulatory exposure, and vulnerable customer risk in real time.</p>
+            <div class="more-text">The CADE engine assigns a dynamic risk score to each complaint based on FCA/FOS historical data, complaint complexity, and customer vulnerability signals. It provides agents with prioritised action guidance  ensuring the most high-risk cases receive immediate expert-level intervention before they reach the Financial Ombudsman Service.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder"> <div class="platform-img-placeholder"><img src="re6.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div><span>Policy Engine</span></div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Core 03</div>
+            <h3>Policy & Rule Engine</h3>
+            <p>Apply rules, policies and precedents intelligently  synthesising FCA guidelines, company policies, and successful resolution patterns into guided, compliant workflows.</p>
+            <div class="more-text">Every resolution is mapped through a structured compliance chain: the Policy Engine cross-references FCA Consumer Duty mandates, FOS precedents, and internal policies to generate step-by-step agent guidance. It clones "Resolution DNA" from senior specialists  making expert-level, compliant resolutions accessible to every front-line agent instantly.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder"> <div class="platform-img-placeholder"><img src="re7.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div><span>Mediation Support</span></div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Core 04</div>
+            <h3>Mediation Support</h3>
+            <p>Assist mediators with data-driven insights and suggestions  providing structured context, historical precedents, and resolution recommendations that guide fair outcomes.</p>
+            <div class="more-text">The Mediation Support module equips resolution specialists with a 360-degree view of each dispute: complaint history, root-cause forensics, comparable resolved cases, and FOS-aligned recommendations. It dramatically reduces mediation time while improving outcome fairness  ensuring vulnerable customer protections are always applied.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder"> <div class="platform-img-placeholder"><img src="re8.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div><span>Analytics & Reports</span></div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Core 05</div>
+            <h3>Analytics & Reports</h3>
+            <p>Generate real-time reports and trend analytics  linking specific operational interventions to complaint volume reductions and FCA Consumer Duty compliance evidence.</p>
+            <div class="more-text">The Post-Intervention Outcome Tracker generates comprehensive reports linking operational changes (rewritten policies, website fixes) to direct reductions in complaint volumes and financial P&L impact. Businesses receive the same level of strategic "Compliance Equity" intelligence used by top-tier enterprise financial institutions  at SME-accessible pricing.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-img-wrap">
+            <div class="platform-img-placeholder"> <div class="platform-img-placeholder"><img src="re9.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div><span>Automated Workflows</span></div>
+          </div>
+          <div class="inner">
+            <div class="element-badge">Core 06</div>
+            <h3>Automated Workflows</h3>
+            <p>Streamline case management and communication  automatically deconstructing multi-channel complaints into structured, multi-step resolution workflows without manual agent triage.</p>
+            <div class="more-text">The Symptom-to-Workflow Auto-Synthesis engine ingests unstructured complaints from email, web forms, and chat, converts them into structured resolution workflows, and routes them to the appropriate team with pre-populated context. Success-Weighted Resolution Evolution continuously prioritises and refines workflows that deliver the best outcomes  creating a self-optimising compliance intelligence system.</div>
+            <button class="expand-btn" onclick="toggleCard(this)">Learn More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitor Table -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="label-tag">Competitor Analysis</div>
+      <h2 class="section-h2 dark">How ResolveIQ Hub Compares</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Feature / Capability</th>
+              <th>OpenAI / Claude Enterprise</th>
+              <th>Zendesk / Salesforce</th>
+              <th>Qualtrics / Medallia</th>
+              <th>ResolveIQ Hub</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Closed-loop Complaint to Outcome Tracking</td>
+              <td class="no">✗ Chat only</td>
+              <td class="no">✗ Ticket closure only</td>
+              <td class="no">Limited (Surveys)</td>
+              <td class="highlight-col yes">✓ Automated outcome tracking</td>
+            </tr>
+            <tr>
+              <td>Predictive Root-Cause Forensics</td>
+              <td class="no">✗ No</td>
+              <td class="no">✗ No</td>
+              <td class="no">Generic sentiment only</td>
+              <td class="highlight-col yes">✓ Domain-specific failure models</td>
+            </tr>
+            <tr>
+              <td>UK FCA/FOS Regulatory Benchmarking</td>
+              <td class="no">✗ No</td>
+              <td class="no">Limited</td>
+              <td class="no">✗ Global focus</td>
+              <td class="highlight-col yes">✓ UK Regional SME logic</td>
+            </tr>
+            <tr>
+              <td>Resolution DNA Cloning & Ontology</td>
+              <td class="no">Limited (Copy/Paste)</td>
+              <td class="no">Templates only</td>
+              <td class="no">✗ No</td>
+              <td class="highlight-col yes">✓ Expert behaviour mapping</td>
+            </tr>
+            <tr>
+              <td>Post-Intervention Outcome Tracker</td>
+              <td class="no">✗ No</td>
+              <td class="no">✗ No</td>
+              <td class="no">✗ No</td>
+              <td class="highlight-col yes">✓ Integrated performance matching</td>
+            </tr>
+            <tr>
+              <td>Federated Compliance Network (FCN)</td>
+              <td class="no">✗ No</td>
+              <td class="no">✗ No</td>
+              <td class="no">✗ No</td>
+              <td class="highlight-col yes">✓ Anonymised FCN Benchmarking</td>
+            </tr>
+            <tr>
+              <td>Target Customer Segment</td>
+              <td>Global Enterprise</td>
+              <td>Broad Sales/Support</td>
+              <td>Global Enterprise</td>
+              <td class="highlight-col">UK Regulated SMEs</td>
+            </tr>
+            <tr>
+              <td>Cost Structure</td>
+              <td>Per-seat high fee</td>
+              <td>Tiered Subscription</td>
+              <td>£40,000+ annually</td>
+              <td class="highlight-col">SME-optimised from £50/mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div><!-- end page platform -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : MARKET
+════════════════════════════════════════════ -->
+<div class="page" id="page-market">
+  <section style="background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 60%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Market Analysis</div>
+      <h2 class="section-h2 dark">A £7.3B Monthly Problem.<br><span style="color:var(--blue-dark);">A Billion-Pound Opportunity.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;">The global AI in Customer Experience and RegTech market was valued at USD 15.2 billion in 2024, forecast to reach USD 48.5 billion by 2030 (CAGR 26.1%). The UK is the second most valuable RegTech ecosystem globally  and ResolveIQ Hub sits directly at its most underserved intersection.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="label-tag">Market Research & Validation</div>
+      <h2 class="section-h2 dark">Data-Validated. Market-Ready.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>UK Regulated SME Sector Distribution (SAM)</h4>
+          <p>Target addressable market across high-complaint-volume regulated industries in the UK</p>
+          <div class="chart-wrap"><canvas id="chartSector"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>Root Cause Pain Points (Survey of 182 UK SMEs)</h4>
+          <p>Key operational challenges preventing effective complaint resolution in UK regulated firms</p>
+          <div class="chart-wrap"><canvas id="chartRootCause"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>ResolveIQ Hub vs. Competitors  Capability Radar</h4>
+          <p>Platform differentiation across six core compliance and intelligence dimensions</p>
+          <div class="chart-wrap"><canvas id="chartRadar"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <h4>UK RegTech & AI CX Market Growth (2022–2030)</h4>
+          <p>Global AI CX/RegTech market size and UK SME adoption trajectory</p>
+          <div class="chart-wrap"><canvas id="chartGrowth"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="container">
+      <div class="label-tag">Survey Validation Results</div>
+      <h2 class="section-h2 dark">182 UK SMEs Surveyed. Strong Market Fit Confirmed.</h2>
+      <div class="section-divider divider-blue"></div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-poll"></i></div>
+          <h4>91.9% Interest in TCF Automation</h4>
+          <p>91.9% of respondents expressed interest in systems that automatically align resolutions with Treating Customers Fairly (TCF) principles  validating ResolveIQ's core value proposition.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-chart-bar"></i></div>
+          <h4>88.1% Value Outcome Tracking</h4>
+          <p>88.1% consider it highly valuable to track post-intervention outcomes  directly confirming demand for ResolveIQ's closed-loop Post-Intervention Outcome Tracker.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-users"></i></div>
+          <h4>85.3% Pilot Interest</h4>
+          <p>85.3% of survey participants expressed interest in joining a ResolveIQ early pilot or beta testing programme  demonstrating exceptional commercial preparedness and product-market fit.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-pound-sign"></i></div>
+          <h4>46.9% Willing to Pay £150–£300/mo</h4>
+          <p>46.9% of respondents indicated willingness to pay £150–£300 monthly  aligning perfectly with ResolveIQ's Professional and Enterprise subscription tiers.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-redo-alt"></i></div>
+          <h4>62.5% Experience Recurring Complaints</h4>
+          <p>62.5% report experiencing the exact same customer complaints repeatedly  confirming the "Operational Amnesia" problem that ResolveIQ's Resolution DNA directly solves.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-clock"></i></div>
+          <h4>58.5% Spend 2–4 Hours Daily on Triage</h4>
+          <p>58.5% of CX teams spend 2–4 hours daily manually investigating complaints  quantifying the "Triage Tax" that ResolveIQ's automated workflow synthesis eliminates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page market -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : PROCESS (HOW IT WORKS)
+════════════════════════════════════════════ -->
+<div class="page" id="page-process">
+  <section style="background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 60%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">How It Works</div>
+      <h2 class="section-h2 dark">From Complaint Received<br><span style="color:var(--blue-dark);">to Systemic Business Fix.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:680px;">ResolveIQ Hub follows a structured, closed-loop process  from multi-channel complaint ingestion, through AI-powered root-cause forensics, to post-intervention outcome tracking. Every step is automated, compliant, and audit-ready.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+
+      <div class="process-step">
+        <div>
+          <div class="step-num">Step 01 · Complaint Ingestion</div>
+          <h3 class="step-h3">Multi-Channel Complaint Capture & Automatic Triage</h3>
+          <p class="step-p">ResolveIQ Hub ingests unstructured complaint data from email, web forms, chat, CRM systems, and helpdesk platforms  automatically classifying complaint type, severity, and regulatory risk category without manual agent input.</p>
+          <p class="step-p">The NLP engine applies domain-specific ontologies trained on UK FCA/FOS datasets to extract intent, emotional context, vulnerability signals, and root-cause indicators from raw customer language  in seconds, not hours.</p>
+          <div class="hero-btns"><button class="btn-primary" onclick="showPage('contact')">See It Live →</button></div>
+        </div>
+        <div class="step-img">
+          <div class="step-img-placeholder">
+             <div class="platform-img-placeholder"><img src="re10.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+            <span>Multi-Channel Ingestion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="step-img" style="order:-1;">
+          <div class="step-img-placeholder">
+             <div class="platform-img-placeholder"><img src="re11.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+            <span>Root-Cause Forensics</span>
+          </div>
+        </div>
+        <div>
+          <div class="step-num">Step 02 · Root-Cause Forensics</div>
+          <h3 class="step-h3">AI Identifies Exactly Where the Customer Journey Breaks Down</h3>
+          <p class="step-p">The Root-Cause Forensics Engine (RCFE) deconstructs each complaint through a structured sequence  from automated triage to historical policy synthesis  identifying whether the failure originated from misleading marketing, product delays, rigid policies, or process breakdowns.</p>
+          <p class="step-p">Unlike passive ticketing tools, RCFE pinpoints the systemic operational "logic leak" driving the complaint  and generates actionable recommendations to fix the underlying business flaw, not just close the ticket.</p>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div>
+          <div class="step-num">Step 03 · Resolution DNA Guidance</div>
+          <h3 class="step-h3">Expert-Level Compliance Guidance for Every Agent</h3>
+          <p class="step-p">ResolveIQ Hub's Context-Aware Decision Engine (CADE) guides front-line agents through Treating Customers Fairly (TCF) protocols and FCA Consumer Duty-aligned resolution pathways  delivering expert-level compliance guidance to every team member, not just senior specialists.</p>
+          <p class="step-p">Successful resolutions are "fingerprinted" as Resolution DNA  encoding the exact compliance logic, empathy language, and remediation steps that prevent FOS escalation. New agents reach resolution proficiency in 14 days vs. the historical average of 45 days.</p>
+        </div>
+        <div class="step-img">
+          <div class="step-img-placeholder">
+             <div class="platform-img-placeholder"><img src="re12.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+            <span>Resolution DNA Cloning</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-step">
+        <div class="step-img" style="order:-1;">
+          <div class="step-img-placeholder">
+             <div class="platform-img-placeholder"><img src="re13.jpg" alt="Seal & Closure"><span>Visual Inspection</span></div>
+            <span>Outcome Tracking</span>
+          </div>
+        </div>
+        <div>
+          <div class="step-num">Step 04 · Closed-Loop Outcome Tracking</div>
+          <h3 class="step-h3">Prove That the Fix Actually Worked</h3>
+          <p class="step-p">The Post-Intervention Outcome Tracker monitors every operational change  linking specific fixes (rewritten policies, website updates, agent retraining) to measurable reductions in complaint volumes and FOS escalation rates over time.</p>
+          <p class="step-p">This creates a verifiable "Resolution DNA chain"  giving SME founders the same strategic intelligence used by top-tier enterprise banks to evidence Consumer Duty compliance and prevent foreseeable harm at every stage of the customer journey.</p>
+          <div class="hero-btns"><button class="btn-primary" onclick="showPage('pricing')">View Pricing →</button></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end page process -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : PRICING
+════════════════════════════════════════════ -->
+<div class="page" id="page-pricing">
+  <section style="background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 60%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Pricing & Plans</div>
+      <h2 class="section-h2 dark">Enterprise-Grade Intelligence.<br><span style="color:var(--blue-dark);">SME-Accessible Pricing.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">From solo founders to multi-site regulated agencies  ResolveIQ Hub scales with your compliance and complaint-handling complexity. Start with simple triage and grow to full behavioural cloning and closed-loop outcome tracking.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Tier 01</div>
+          <div class="price-name">Logic Core</div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Solo founders & boutique regulated agencies</p>
+          <div class="price-num">£50<span>/mo</span></div>
+          <div class="price-period">Monthly · Cancel Anytime</div>
+          <div class="price-rule"></div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Multi-channel complaint intake</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Centralised ticket logging</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Standard compliance reporting</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Browser layer access</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>FCA Consumer Duty alerts</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Email support</div>
+          <br>
+          <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="showPage('contact')">Get Started →</button>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">Most Popular</div>
+          <div class="price-tier">Tier 02</div>
+          <div class="price-name">DNA Architect</div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Mid-sized FinTechs & growing service firms</p>
+          <div class="price-num">£150<span>/mo</span></div>
+          <div class="price-period">Monthly · Cancel Anytime</div>
+          <div class="price-rule"></div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Context-Aware Decision Engine (CADE)</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Operational root-cause identification</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Vulnerable customer flagging</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>CRM sync (Zendesk / Salesforce)</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Resolution DNA Fingerprinting</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Priority email & chat support</div>
+          <br>
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="showPage('contact')">Book a Demo →</button>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Tier 03</div>
+          <div class="price-name">Logic Sovereign</div>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Multi-site service agencies & corporate compliance teams</p>
+          <div class="price-num">£300<span>/mo</span></div>
+          <div class="price-period">Monthly · Cancel Anytime</div>
+          <div class="price-rule"></div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Root-Cause Forensics Engine (RCFE)</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Secure Compliance Nodes</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Federated Compliance Network (FCN) access</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Post-Intervention Outcome Tracker</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>All Core capabilities + FCN Benchmarking</div>
+          <div class="price-feature"><i class="fas fa-check-circle"></i>Dedicated account manager</div>
+          <br>
+          <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="showPage('contact')">Get Started →</button>
+        </div>
+      </div>
+
+      <!-- One-time fees -->
+      <div style="margin-top:40px;">
+        <div class="label-tag">One-Time Services</div>
+        <h3 style="font-family:var(--display);font-size:22px;font-weight:800;color:var(--text-dark);margin-bottom:8px;">Implementation & Audit Services</h3>
+        <div class="section-divider divider-blue" style="margin-bottom:28px;"></div>
+        <div class="one-time-grid">
+          <div class="price-card" style="padding:28px;">
+            <div class="price-tier">Add-On A</div>
+            <div class="price-name" style="font-size:18px;">Secure Connector Setup</div>
+            <div class="price-num" style="font-size:32px;">£600<span style="font-size:14px;"> one-time</span></div>
+            <div class="price-rule"></div>
+            <div class="price-feature"><i class="fas fa-check-circle"></i>One-time API integration & calibration</div>
+            <div class="price-feature"><i class="fas fa-check-circle"></i>Secure regulatory node configuration</div>
+            <div class="price-feature"><i class="fas fa-check-circle"></i>For all firms requiring deep API integration</div>
+          </div>
+          <div class="price-card" style="padding:28px;">
+            <div class="price-tier">Add-On B</div>
+            <div class="price-name" style="font-size:18px;">Professional Services</div>
+            <div class="price-num" style="font-size:32px;">£500<span style="font-size:14px;"> one-time</span></div>
+            <div class="price-rule"></div>
+            <div class="price-feature"><i class="fas fa-check-circle"></i>Custom regulatory audits of legacy complaints</div>
+            <div class="price-feature"><i class="fas fa-check-circle"></i>Automated complaint workflow analysis</div>
+            <div class="price-feature"><i class="fas fa-check-circle"></i>Team-wide FCA Consumer Duty training</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page pricing -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : FAQ
+════════════════════════════════════════════ -->
+<div class="page" id="page-faq">
+  <section style="background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 60%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">FAQ</div>
+      <h2 class="section-h2 dark">Frequently Asked Questions</h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">Everything you need to know about ResolveIQ Hub and what it means for your organisation's complaint resolution, regulatory compliance, and operational efficiency.</p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container" style="max-width:840px;">
+      <div class="faq-wrap">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is ResolveIQ Hub and why do UK SMEs need it?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">ResolveIQ Hub is an AI-powered Enterprise SaaS platform uniquely positioned at the intersection of Customer Experience (CX) and Regulatory Technology (RegTech). It transforms the traditional, reactive approach to customer complaints into a proactive, closed-loop system of continuous operational intelligence. Without it, UK SMEs face £7.3 billion in monthly economic losses, FOS escalation fees of £750+ per case, and mounting FCA Consumer Duty penalties  all driven by "Operational Amnesia" and the inability to identify recurring root-cause failures.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is Resolution DNA Fingerprinting?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">Resolution DNA Fingerprinting uses advanced machine learning to capture, encode, and store the specific compliance logic that makes a resolution successful  including FCA Consumer Duty alignment, empathetic language patterns, and remediation steps that prevent FOS escalation. When a senior specialist resolves a complex complaint expertly, ResolveIQ "fingerprints" that operational logic. Junior agents handling similar future cases can then achieve the same expert-level, compliant resolution instantly  eliminating "Operational Amnesia" during staff turnover.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>How does the Root-Cause Forensics Engine (RCFE) work?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">The RCFE automatically deconstructs multi-channel customer complaints through a structured sequence  from automated triage to historical policy synthesis. It identifies exactly where the customer journey breaks down: whether due to misleading marketing documentation, rigid internal policies, product fulfillment delays, or systemic process failures. Unlike generic AI tools that summarise complaints, RCFE pinpoints the operational "logic leak" and generates actionable management recommendations to fix the underlying business flaw permanently.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>How does ResolveIQ Hub help with UK FCA Consumer Duty compliance?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">ResolveIQ Hub provides real-time Consumer Duty governance by mapping every complaint resolution to FCA mandates, FOS guidelines, and Treating Customers Fairly (TCF) principles. The platform generates audit-ready "resolution DNA chains"  a traceable link between every complaint, its root cause, and the operational fix  allowing firms to proactively evidence to regulators that they are preventing foreseeable harm. This transforms compliance from a manual "tick-box" exercise to a continuous, AI-verified forensic audit.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>Can ResolveIQ Hub integrate with my existing systems?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">Yes. ResolveIQ Hub is built with a CRM-agnostic integration architecture. It is designed to sit above or alongside existing systems including Zendesk, Salesforce Service Cloud, Intercom, and Microsoft Dynamics  businesses are never required to rip and replace their existing technology stack. The Secure Connector Setup (£600 one-time) provides API calibration, secure regulatory node configuration, and seamless integration with your existing helpdesk infrastructure within days, not months.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What is the Federated Compliance Network (FCN)?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">The FCN is ResolveIQ Hub's federated learning architecture that allows anonymised "Resolution DNA" benchmarks from thousands of UK service firms to continuously improve predictive models  without ever sharing sensitive Personally Identifiable Information (PII). For example, compliance trends learned from recurring product disputes in London can be used to optimise proactive dispute resolution for a small regulated firm in Manchester. This creates a collective intelligence ecosystem that provides independent SMEs with the same strategic "Compliance Equity" usually reserved for global tier-one banks.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFAQ(this)"><h4>What results can I expect from a ResolveIQ Hub pilot?</h4><span class="faq-icon">+</span></div>
+          <div class="faq-a">Based on pilot research across 5 UK-based regulated service locations over 8 weeks: 28% average decrease in Average Handling Time (AHT) per complex complaint through automated workflow synthesis; 22% reduction in recurring systemic complaints through closed-loop outcome tracking; new customer service and compliance hires reaching "resolution proficiency" within 14 days compared to the historical average of 45 days; and a 4.4/5 user satisfaction score for "Compliance Equity Value." 85.3% of surveyed UK SMEs expressed interest in joining a ResolveIQ pilot programme.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page faq -->
+
+
+<!-- ═══════════════════════════════════════
+     PAGE : CONTACT
+════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <section style="background:linear-gradient(140deg,#EEEEF5 0%,#E2E3F0 50%,#FDE8B8 100%);padding:clamp(80px,12vw,120px) 0 clamp(60px,8vw,80px);">
+    <div class="container">
+      <div class="label-tag">Contact & Demo</div>
+      <h2 class="section-h2 dark">See ResolveIQ Hub in Action.<br><span style="color:var(--blue-dark);">Book Your Platform Demo Today.</span></h2>
+      <div class="section-divider divider-blue"></div>
+      <p class="para-dark" style="max-width:600px;">
+        Our personalised demos show your organisation's actual complaint baseline, Root-Cause Forensics scores, and Consumer Duty Compliance ratings  using your real complaint data, not generic examples or static presentations.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="container">
+      <div class="contact-wrap">
+        <!-- FORM -->
+        <div class="contact-form">
+          <h3>Book Your Platform Demo</h3>
+          <p>Fill in your details and our Compliance Success team will contact you within 24 hours.</p>
+          <form action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="e555ffa6-2f13-4443-a2c4-e585053c618e">
+            <input type="hidden" name="subject" value="New ResolveIQ Hub Demo Request">
+            <input type="hidden" name="from_name" value="ResolveIQ Hub Website">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" name="email" placeholder="your@company.co.uk" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" name="phone" placeholder="+44 7XXX XXXXXX">
+            </div>
+            <div class="form-group">
+              <label>Company / Organisation Name</label>
+              <input type="text" name="company" placeholder="Your company or organisation name">
+            </div>
+            <div class="form-group">
+              <label>Business Type</label>
+              <select name="business_type">
+                <option>FinTech / Challenger Bank</option>
+                <option>E-Commerce & Digital Retail</option>
+                <option>Regulated Utilities & Property</option>
+                <option>Insurance</option>
+                <option>Legal / Professional Services</option>
+                <option>HR & Workplace</option>
+                <option>Government / Public Sector</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>What are you most interested in?</label>
+              <textarea name="message" placeholder="Tell us about your complaint handling challenges, current systems, regulatory pressures, or the capabilities you'd like to explore..." required></textarea>
+            </div>
+            <button class="btn-primary" style="width:100%;justify-content:center;" type="submit">Request Demo →</button>
+          </form>
+        </div>
+
+        <!-- INFO -->
+        <div class="contact-info">
+          <h3>Why Book a Demo?</h3>
+          <p>Our personalised demos show your organisation's actual complaint baseline, Root-Cause Forensics scores, and Consumer Duty Compliance ratings using your real complaint data  not generic examples. We demonstrate how Resolution DNA Fingerprinting, the Root-Cause Forensics Engine (RCFE), and the Post-Intervention Outcome Tracker work together to reduce escalations, eliminate recurring failures, protect regulatory licences, and convert complaints from a liability into a verifiable operational asset. Every demo is tailored to your complaint volume, regulatory context, and operational challenges.</p>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div class="text">
+              <strong>Email Us</strong>
+              <span>resolveiqhubuk@outlook.com</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-phone"></i></div>
+            <div class="text">
+              <strong>Phone</strong>
+              <span>Tuhin Datta Choudhury · Founder & CEO</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="text">
+              <strong>UK Headquarters</strong>
+              <span>London, United Kingdom · 2026</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-clock"></i></div>
+            <div class="text">
+              <strong>Response Time</strong>
+              <span>Within 24 hours · Mon–Fri 9am–6pm GMT</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="text">
+              <strong>Data Privacy</strong>
+              <span>UK GDPR · ICO Compliant · FCA Consumer Duty Aligned</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- end page contact -->
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">ResolveIQ<span>Hub</span></div>
+        <p class="footer-desc">The UK's AI-powered Complaint Intelligence & Closed-Loop Management Platform  measuring, managing, and governing every complaint resolution in real time. Smarter Outcomes. Better Relationships. Better Future.</p>
+        <div class="footer-badges">
+          <span class="footer-badge">UK GDPR Compliant</span>
+          <span class="footer-badge">ICO Registered</span>
+          <span class="footer-badge">FCA Consumer Duty</span>
+          <span class="footer-badge">FOS Aligned</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <div class="footer-col">
+          <a onclick="showPage('platform')">NLP & Context Understanding</a>
+          <a onclick="showPage('platform')">Risk & Impact Assessment</a>
+          <a onclick="showPage('platform')">Policy & Rule Engine</a>
+          <a onclick="showPage('platform')">Mediation Support</a>
+          <a onclick="showPage('platform')">Analytics & Reports</a>
+          <a onclick="showPage('platform')">Automated Workflows</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-col">
+          <a onclick="showPage('about')">About ResolveIQ Hub</a>
+          <a onclick="showPage('about')">Tuhin Datta Choudhury · CEO</a>
+          <a onclick="showPage('process')">How It Works</a>
+          <a onclick="showPage('faq')">FAQ</a>
+          <a onclick="showPage('market')">Market Analysis</a>
+          <a onclick="showPage('pricing')">Pricing & Plans</a>
+          <a onclick="showPage('contact')">Request a Demo</a>
+          <a onclick="showPage('contact')">Pilot Programme</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Solutions</div>
+        <div class="footer-col">
+          <a onclick="showPage('platform')">FinTech & Challenger Banks</a>
+          <a onclick="showPage('platform')">E-Commerce & Retail</a>
+          <a onclick="showPage('platform')">Insurance & Utilities</a>
+          <a onclick="showPage('platform')">Legal & Professional Services</a>
+          <a onclick="showPage('pricing')">Logic Core · £50/mo</a>
+          <a onclick="showPage('pricing')">DNA Architect · £150/mo</a>
+          <a onclick="showPage('pricing')">Logic Sovereign · £300/mo</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <p>© 2026 <span>ResolveIQ Hub</span> · London, UK · FCA Consumer Duty Aligned · by Tuhin Datta Choudhury</p>
+      <div class="footer-bottom-links">
+        <a onclick="showPage('contact')">Privacy Policy</a>
+        <a onclick="showPage('contact')">Terms of Service</a>
+        <a onclick="showPage('contact')">Confidential Business Plan</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links button').forEach(b=>b.classList.remove('active'));
+  const pg=document.getElementById('page-'+name);
+  if(pg){pg.classList.add('active');}
+  const btn=document.getElementById('nav-'+name);
+  if(btn){btn.classList.add('active');}
+  window.scrollTo({top:0,behavior:'instant'});
+  if(name==='market'&&!window.marketChartsLoaded){initMarketCharts();window.marketChartsLoaded=true;}
+}
+
+function toggleCard(btn){
+  const card=btn.closest('.platform-card');
+  card.classList.toggle('open');
+  btn.innerHTML=card.classList.contains('open')?'Show Less':'Learn More';
+}
+
+function toggleFAQ(el){el.parentElement.classList.toggle('open');}
+
+function closeMobile(){
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+/* Chart colours  ResolveIQ Hub Indigo/Gold palette */
+const IND='rgba(27,42,107,1)';
+const IND2='rgba(27,42,107,0.7)';
+const IND3='rgba(27,42,107,0.35)';
+const GLD='rgba(232,160,32,0.9)';
+const GLD2='rgba(232,160,32,0.55)';
+const GRID='rgba(27,42,107,0.07)';
+const MUTED='rgba(30,43,94,0.8)';
+
+Chart.defaults.font.family="'IBM Plex Mono', monospace";
+Chart.defaults.font.size=11;
+Chart.defaults.color=MUTED;
+
+function initMarketCharts(){
+  new Chart(document.getElementById('chartSector').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['FinTech & Financial Services','E-Commerce & Retail','Utilities & Property','Legal & Professional'],
+      datasets:[{
+        label:'SAM (£ Millions)',
+        data:[420,280,155,140],
+        backgroundColor:[IND,IND2,IND3,GLD],
+        borderRadius:6,barPercentage:0.6
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>'£'+v+'M'}}}}
+  });
+
+  new Chart(document.getElementById('chartRootCause').getContext('2d'),{
+    type:'doughnut',
+    data:{
+      labels:['Inability to Identify Root Causes (32%)','Manual Triage Burden (28.5%)','FCA/FOS Regulatory Anxiety (19.6%)','Lack of Closed-Loop Tracking (27.5%)','Operational Amnesia on Staff Change (34%)'],
+      datasets:[{
+        data:[32,28.5,19.6,27.5,34],
+        backgroundColor:[IND,IND2,IND3,GLD,GLD2],
+        borderColor:['rgba(27,42,107,0.9)','rgba(27,42,107,0.7)','rgba(27,42,107,0.4)','rgba(232,160,32,0.9)','rgba(232,160,32,0.5)'],
+        borderWidth:1.5
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:10,font:{size:10}}}}}
+  });
+
+  new Chart(document.getElementById('chartRadar').getContext('2d'),{
+    type:'radar',
+    data:{
+      labels:['Root-Cause Forensics','FCA/FOS Compliance','Resolution DNA Cloning','Outcome Tracking','Federated Network','UK SME Integration'],
+      datasets:[
+        {label:'ResolveIQ Hub',data:[5,5,5,5,5,5],backgroundColor:'rgba(27,42,107,0.1)',borderColor:IND,borderWidth:2,pointBackgroundColor:IND},
+        {label:'Zendesk / Salesforce',data:[1,2,1,1,1,3],backgroundColor:'rgba(232,160,32,0.06)',borderColor:GLD,borderWidth:1.5,pointBackgroundColor:GLD},
+        {label:'Qualtrics / Medallia',data:[2,1,1,2,1,1],backgroundColor:'rgba(232,160,32,0.04)',borderColor:'rgba(232,160,32,0.5)',borderWidth:1.5,pointBackgroundColor:'rgba(232,160,32,0.5)'},
+        {label:'OpenAI / Claude Ent.',data:[1,1,2,1,1,1],backgroundColor:'rgba(30,43,94,0.04)',borderColor:'rgba(30,43,94,0.4)',borderWidth:1.5,pointBackgroundColor:'rgba(30,43,94,0.4)'},
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:14,font:{size:10}}}},scales:{r:{backgroundColor:'rgba(27,42,107,0.01)',grid:{color:GRID},pointLabels:{color:MUTED,font:{size:10}},ticks:{display:false},min:0,max:5}}}
+  });
+
+  new Chart(document.getElementById('chartGrowth').getContext('2d'),{
+    type:'bar',
+    data:{
+      labels:['2022','2023','2024','2025','2026','2027','2028','2030'],
+      datasets:[
+        {label:'Global AI CX/RegTech Market (USD B)',data:[8.2,10.4,15.2,19.8,26.1,33.5,40.2,48.5],backgroundColor:IND2,borderRadius:5,barPercentage:0.55},
+        {type:'line',label:'UK SME RegTech Adoption %',data:[null,4,8,13,22,35,50,70],borderColor:GLD,borderWidth:2,yAxisID:'y2',tension:0.4,pointBackgroundColor:GLD,fill:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:MUTED,boxWidth:10,padding:12,font:{size:10}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED,callback:v=>'$'+v+'B'}},y2:{position:'right',grid:{display:false},ticks:{color:MUTED,callback:v=>v+'%'}}}}
+  });
+}
+</script>
+</body>
+</html>
